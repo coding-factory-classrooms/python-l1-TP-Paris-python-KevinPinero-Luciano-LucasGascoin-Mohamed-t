@@ -15,6 +15,8 @@ args = sys.argv
 
 
 p = Path('.')
+k = 0
+
 
 #list_img = list(p.glob('Data/imgs/*.*'))  # retour console : [PosixPath('Data/imgs/img_test.png')]
 #print(list_img)
@@ -22,26 +24,34 @@ p = Path('.')
 #print(lulu)
 
 compteur = 0
+args = sys.argv
+
 
 for i in args:
     #print("test for")
     if (i == "-i"):
         bool = True
-    compteur = compteur +1
+    compteur = compteur + 1
 
 
 
 path = args[compteur-1]
-list_img = [f for f in listdir(f"{path}") if isfile(join(f"{path}", f))]
+print(f"path = {path}")
 
-args = sys.argv
+try:
+    list_img = [f for f in listdir(f"{path}") if isfile(join(f"{path}", f))]     # affiche la liste des images du dossier
+except FileNotFoundError as f:
+    print(f"Dossier inexistant")
+    sys.exit(1)
+
+
+print(list_img)
+
 
 
 
 listimgread =[]
 
-
-k= 0
 
 
 #list_imgs = [f for f in listdir("Data/imgs/") if isfile(join("Data/imgs", f))]
@@ -50,14 +60,15 @@ k= 0
 #src = ("Data/imgs/img_test.png")
 
 def read_image():
+    full_path = str(f'{path}/{list_img[k]}')
 
-        print(f"second k ={k}")
-        img = list_img[k]
-        imgstr = str(img)
-        image1 = cv2.imread(imgstr)
-        print(f"image1 = {image1}")
-        print("imgstr = " + imgstr)
-        return image1
+    print(f"second k = {k}")
+    img = list_img[k]
+    imgstr = str(img)
+    print("mon img en str = " + imgstr)
+    image1 = cv2.imread(full_path)
+    print(f"mon image lu = {image1}")
+    return image1
 
 
 
@@ -77,7 +88,6 @@ def write(image):
         cv2.imwrite(f'output/{basename(l)}', image)
     except:
         print(f"le fichier {l} n'est pas une image ou n'existe pas ou vous avez appliqué un flou négatif ou pair")
-
 
 
 
@@ -103,6 +113,34 @@ for i in range (len(list_img)):
         k = k + 1
 
 
+
+
+bool = False
+compteur =0
+
+ma_liste =[]
+
+
+for i, arg in enumerate(args):
+    if arg == "-h":
+        print('usage: imagefilter')
+        print("-h,----help")
+        print("-i,--input-dir")
+        print("-o,--output-dir")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #test pour afficher l'image si bueno
 # try:
 #     cv2.imshow('read', output_dilate)
@@ -115,19 +153,6 @@ for i in range (len(list_img)):
 
 # v2.imshow('Dilated Image', dilate_img)
 
-
-
-bool = False
-compteur =0
-
-ma_liste =[]
-
-for i, arg in enumerate(args):
-    if arg == "-h":
-        print('usage: imagefilter')
-        print("-h,----help")
-        print("-i,--input-dir")
-        print("-o,--output-dir")
 
 
 

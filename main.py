@@ -11,8 +11,7 @@ print(dirs)
 #
 # liste_dir = [f for f in listdir("Data/")]
 # print(liste_dir)
-for i, d in dirs:
-    print(i[d])
+
 
 # for i in :
 #     print(i)
