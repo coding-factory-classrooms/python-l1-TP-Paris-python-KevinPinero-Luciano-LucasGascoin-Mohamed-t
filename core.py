@@ -21,13 +21,27 @@ k = 0   # Compteur permettant de parcourir la liste contant les fichiers
 
 
 #list_img = list(p.glob('Data/imgs/*.*'))  # retour console : [PosixPath('Data/imgs/img_test.png')]
-#print(list_img)
-#lulu =str(list_img[0])
-#print(lulu)
+
 
 compteur = 0    # compteur pour récupérer l'element suivant le -i
 args = sys.argv
 compteur_out = 0
+
+
+
+import configparser
+
+
+config = configparser.ConfigParser()
+print("________________________________________________________")
+
+
+
+print("________________________________________________________")
+
+
+
+
 
 
 for i in args:
@@ -37,19 +51,7 @@ for i in args:
     compteur = compteur + 1
 
 
-# for o in args:
-#     compteur_out = compteur_out +1
-#     if (o == "-o"):
-#         try:
-#             global create_out
-#             create_out = os.mkdir(args[compteur_out])
-#             print(f"create_out = {create_out}")
-#             pass
-#         except:
-#             print('Dossier déjà existant')
-#             pass
-
-
+bool2 = False
 
 path_in = args[compteur-3]
 print(f"path in = {path_in}")
@@ -57,6 +59,25 @@ print(f"compteur= {compteur}")
 
 dictionnary['input'] = path_in
 #print(f'DICTIONNARY = {dictionnary}')
+v = 0
+
+try:
+
+    for elem in args:
+        v = v + 1
+        if (elem == "--config-file"):
+            file_ini =  args[v]
+            l = config.read(file_ini)
+            pathinput_default = config['general']['input_dir']
+            pathoutput_default = config['general']['output_dir']
+            path_in = pathinput_default
+            global util_out
+            util_out = pathoutput_default
+except Exception:
+    print('Argument manquant ou en trop')
+
+
+
 
 try:
     list_img = [f for f in listdir(f"{path_in}") if isfile(join(f"{path_in}", f))]     # affiche la liste des images du dossier
@@ -68,10 +89,6 @@ except Exception as f:    #FileNotFoundError -> prend en compte uniquement l'exi
 print(f'list_img = {list_img}')
 
 
-#list_imgs = [f for f in listdir("Data/imgs/") if isfile(join("Data/imgs", f))]
-#src = ("Data/imgs/img_test.png")
-
-#src = ("Data/imgs/img_test.png")
 
 def read_image():
     full_path = str(f'{path_in}/{list_img[k]}')
@@ -86,29 +103,19 @@ def read_image():
 
 
 
-#print("le fichieeerezrze")
-# try:
-#     output_blur = blur.blur(output_gray, -40)
-#     output_dilate = dilate.dilate(output_blur, -20)
-# except:
-#     pass
-    #print(f"le fichier  {src} n'existe pas")
-
-# for o,arg in enumerate(args):
-#     if (arg == '-o'):
-#         global util_out
-#         # util_out = args[o + 1]
-#         # print(f'util: {util_out}')
-
-
 for o in args:
     compteur_out = compteur_out +1
 
     print(f"compteur_out = {compteur_out}")
     if (o == '-o'):
+#        global util_out
         util_out = args[compteur_out]   # Recuperation du chemin vers le out de l'utilisteur
         dictionnary["output"] = util_out
         print(f"util_out = {util_out}")
+
+
+
+
 
 
 print(f"DICTIONNNAIRE = {dictionnary}")
@@ -120,6 +127,7 @@ def write(image):
 
     if not os.path.exists(util_out):
         os.mkdir(util_out)
+
 
     try:
         #print("test")
