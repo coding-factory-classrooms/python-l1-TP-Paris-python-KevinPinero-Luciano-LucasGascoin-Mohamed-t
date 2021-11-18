@@ -15,7 +15,7 @@ args = sys.argv
 
 
 p = Path('.')
-
+dictionnary = {}
 
 k = 0   # Compteur permettant de parcourir la liste contant les fichiers
 
@@ -25,15 +25,15 @@ k = 0   # Compteur permettant de parcourir la liste contant les fichiers
 #lulu =str(list_img[0])
 #print(lulu)
 
-compteur = 0
+compteur = 0    # compteur pour récupérer l'element suivant le -i
 args = sys.argv
 compteur_out = 0
 
 
 for i in args:
     #print("test for")
-    if (i == "-i"):
-        bool = True
+    # if (i == "-i"):
+    #     bool = True
     compteur = compteur + 1
 
 
@@ -55,10 +55,13 @@ path_in = args[compteur-3]
 print(f"path in = {path_in}")
 print(f"compteur= {compteur}")
 
+dictionnary['input'] = path_in
+#print(f'DICTIONNARY = {dictionnary}')
+
 try:
     list_img = [f for f in listdir(f"{path_in}") if isfile(join(f"{path_in}", f))]     # affiche la liste des images du dossier
-except FileNotFoundError as f:
-    print(f"Dossier inexistant")
+except Exception as f:    #FileNotFoundError -> prend en compte uniquement l'existence des fichiers
+    print(f"Dossier inexistant ou erreur d'écriture dans la commande")
     sys.exit(1)
 
 
@@ -83,7 +86,7 @@ def read_image():
 
 
 
-    #print("le fichieeerezrze")
+#print("le fichieeerezrze")
 # try:
 #     output_blur = blur.blur(output_gray, -40)
 #     output_dilate = dilate.dilate(output_blur, -20)
@@ -97,11 +100,18 @@ def read_image():
 #         # util_out = args[o + 1]
 #         # print(f'util: {util_out}')
 
+
 for o in args:
     compteur_out = compteur_out +1
+
+    print(f"compteur_out = {compteur_out}")
     if (o == '-o'):
         util_out = args[compteur_out]   # Recuperation du chemin vers le out de l'utilisteur
+        dictionnary["output"] = util_out
         print(f"util_out = {util_out}")
+
+
+print(f"DICTIONNNAIRE = {dictionnary}")
 
 
 def write(image):
@@ -116,6 +126,7 @@ def write(image):
         cv2.imwrite(f'{util_out}/{basename(l)}', image)
     except:
         print(f"le fichier {l} n'est pas une image ou n'existe pas ou vous avez appliqué un flou négatif ou pair")
+
 
 
 
@@ -146,8 +157,8 @@ def exe():
 
 
 
-bool = False
-compteur =0
+#bool = False
+#compteur =0
 exe()
 ma_liste =[]
 
@@ -158,9 +169,6 @@ for i, arg in enumerate(args):
         print("-h,----help")
         print("-i,--input-dir")
         print("-o,--output-dir")
-
-
-
 
 
 
