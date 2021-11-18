@@ -15,9 +15,9 @@ args = sys.argv
 
 
 p = Path('.')
-k = 0
 
 
+k = 0   # Compteur permettant de parcourir la liste contant les fichiers
 
 
 #list_img = list(p.glob('Data/imgs/*.*'))  # retour console : [PosixPath('Data/imgs/img_test.png')]
@@ -53,6 +53,7 @@ for i in args:
 
 path_in = args[compteur-3]
 print(f"path in = {path_in}")
+print(f"compteur= {compteur}")
 
 try:
     list_img = [f for f in listdir(f"{path_in}") if isfile(join(f"{path_in}", f))]     # affiche la liste des images du dossier
@@ -62,10 +63,6 @@ except FileNotFoundError as f:
 
 
 print(f'list_img = {list_img}')
-
-
-listimgread =[]
-
 
 
 #list_imgs = [f for f in listdir("Data/imgs/") if isfile(join("Data/imgs", f))]
@@ -103,53 +100,55 @@ def read_image():
 for o in args:
     compteur_out = compteur_out +1
     if (o == '-o'):
-        global util_out
         util_out = args[compteur_out]   # Recuperation du chemin vers le out de l'utilisteur
         print(f"util_out = {util_out}")
 
 
 def write(image):
     l = list_img[k]
-    print(f"Je suis dans write avec l = {l}")
+    #print(f"Je suis dans write avec l = {l}")
 
     if not os.path.exists(util_out):
         os.mkdir(util_out)
 
     try:
-        print("test")
+        #print("test")
         cv2.imwrite(f'{util_out}/{basename(l)}', image)
     except:
         print(f"le fichier {l} n'est pas une image ou n'existe pas ou vous avez appliqué un flou négatif ou pair")
 
 
 
+def exe():
+    for i in range (len(list_img)):
+        global k
 
-for i in range (len(list_img)):
-    print('Boucle principal')
-    try:
+        #print('Boucle principal')
+        try:
 
-        #print(f"k: {k} ")
-        print('Dans try principal')
-        output_gray = gray.gray(read_image())
-        print('entre gray et blur')
-        output_blur = blur.blur(output_gray, 217)
-        #output_blur1 = blur.blur(read_image(), 211)
-        output_dilate = dilate.dilate(output_gray, 203)
-        output_dilate1 = dilate.dilate(output_blur, 23)
+            #print(f"k: {k} ")
+            #print('Dans try principal')
+            output_gray = gray.gray(read_image())
+            # print('entre gray et blur')
+            output_blur = blur.blur(output_gray, 217)
+            #output_blur1 = blur.blur(read_image(), 211)
+            output_dilate = dilate.dilate(output_gray, 203)
+            output_dilate1 = dilate.dilate(output_blur, 23)
 
-        #read_image()
-        write(output_dilate1)
-        k = k + 1
-    except Exception as e :
-        print(e)
-        k = k + 1
+            #read_image()
+            write(output_dilate1)
+            k = k + 1
 
+        except Exception as e :
+
+            print(e)
+            k = k + 1
 
 
 
 bool = False
 compteur =0
-
+exe()
 ma_liste =[]
 
 
