@@ -13,6 +13,23 @@ for strParam in sys.argv[1:]:
 
 print(dictionary)
 
+for i in dictionary.keys():
+    if i == "-h":
+        print('usage: imagefilter')
+        print("-h,----help")
+        print("-i,--input-dir")
+        print("-o,--output-dir")
+
+for i in dictionary.keys():
+    if i == "-i":
+        print("-i, Data/imgs")
+
+
+for i in dictionary.keys():
+    if i == "-o":
+        print("-o, /output")
+
+
 
 
 
