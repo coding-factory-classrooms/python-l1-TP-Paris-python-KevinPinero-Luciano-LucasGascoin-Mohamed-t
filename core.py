@@ -18,6 +18,8 @@ p = Path('.')
 k = 0
 
 
+
+
 #list_img = list(p.glob('Data/imgs/*.*'))  # retour console : [PosixPath('Data/imgs/img_test.png')]
 #print(list_img)
 #lulu =str(list_img[0])
@@ -25,6 +27,7 @@ k = 0
 
 compteur = 0
 args = sys.argv
+compteur_out = 0
 
 
 for i in args:
@@ -34,20 +37,31 @@ for i in args:
     compteur = compteur + 1
 
 
+# for o in args:
+#     compteur_out = compteur_out +1
+#     if (o == "-o"):
+#         try:
+#             global create_out
+#             create_out = os.mkdir(args[compteur_out])
+#             print(f"create_out = {create_out}")
+#             pass
+#         except:
+#             print('Dossier déjà existant')
+#             pass
 
-path = args[compteur-1]
-print(f"path = {path}")
+
+
+path_in = args[compteur-3]
+print(f"path in = {path_in}")
 
 try:
-    list_img = [f for f in listdir(f"{path}") if isfile(join(f"{path}", f))]     # affiche la liste des images du dossier
+    list_img = [f for f in listdir(f"{path_in}") if isfile(join(f"{path_in}", f))]     # affiche la liste des images du dossier
 except FileNotFoundError as f:
     print(f"Dossier inexistant")
     sys.exit(1)
 
 
-print(list_img)
-
-
+print(f'list_img = {list_img}')
 
 
 listimgread =[]
@@ -60,14 +74,14 @@ listimgread =[]
 #src = ("Data/imgs/img_test.png")
 
 def read_image():
-    full_path = str(f'{path}/{list_img[k]}')
+    full_path = str(f'{path_in}/{list_img[k]}')
 
     print(f"second k = {k}")
     img = list_img[k]
     imgstr = str(img)
     print("mon img en str = " + imgstr)
     image1 = cv2.imread(full_path)
-    print(f"mon image lu = {image1}")
+    #print(f"mon image lu = {image1}")
     return image1
 
 
@@ -80,12 +94,30 @@ def read_image():
 #     pass
     #print(f"le fichier  {src} n'existe pas")
 
+# for o,arg in enumerate(args):
+#     if (arg == '-o'):
+#         global util_out
+#         # util_out = args[o + 1]
+#         # print(f'util: {util_out}')
+
+for o in args:
+    compteur_out = compteur_out +1
+    if (o == '-o'):
+        global util_out
+        util_out = args[compteur_out]   # Recuperation du chemin vers le out de l'utilisteur
+        print(f"util_out = {util_out}")
+
 
 def write(image):
     l = list_img[k]
     print(f"Je suis dans write avec l = {l}")
+
+    if not os.path.exists(util_out):
+        os.mkdir(util_out)
+
     try:
-        cv2.imwrite(f'output/{basename(l)}', image)
+        print("test")
+        cv2.imwrite(f'{util_out}/{basename(l)}', image)
     except:
         print(f"le fichier {l} n'est pas une image ou n'existe pas ou vous avez appliqué un flou négatif ou pair")
 
