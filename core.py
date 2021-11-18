@@ -1,6 +1,8 @@
 from os import listdir
 from os.path import isfile, join
 import sys
+import logger as f
+
 import cv2
 import os
 from pathlib import Path
@@ -70,6 +72,16 @@ def read_image():
     print(f"mon image lu = {image1}")
     return image1
 
+    try:
+        #print(f"second k ={k}")
+        img = list_img[k]
+        imgstr = str(img)
+        image1 = cv2.imread(imgstr)
+        #print("imgstr = "+imgstr)
+        f.open_log(k)
+        return image1
+    except:
+        pass
 
 
     #print("le fichieeerezrze")
@@ -86,6 +98,7 @@ def write(image):
     print(f"Je suis dans write avec l = {l}")
     try:
         cv2.imwrite(f'output/{basename(l)}', image)
+        f.save_log()
     except:
         print(f"le fichier {l} n'est pas une image ou n'existe pas ou vous avez appliqué un flou négatif ou pair")
 
@@ -98,12 +111,15 @@ for i in range (len(list_img)):
 
         #print(f"k: {k} ")
         print('Dans try principal')
+        #print(f"k: {k} ")
         output_gray = gray.gray(read_image())
         print('entre gray et blur')
         output_blur = blur.blur(output_gray, 217)
         #output_blur1 = blur.blur(read_image(), 211)
         output_dilate = dilate.dilate(output_gray, 203)
         output_dilate1 = dilate.dilate(output_blur, 23)
+
+
 
         #read_image()
         write(output_dilate1)

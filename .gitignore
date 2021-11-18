@@ -3,6 +3,7 @@
 ## Custom
 output/
 .DS_store
+imagefilter.log
 
 ### Python template
 # Byte-compiled / optimized / DLL files
