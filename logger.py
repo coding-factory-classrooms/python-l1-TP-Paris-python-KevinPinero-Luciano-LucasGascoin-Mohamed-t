@@ -1,6 +1,4 @@
 from datetime import datetime
-from core import list_img
-from core import path
 
 
 log_file = 'imagefilter.log'
@@ -9,9 +7,9 @@ timestamp = now.strftime('%d/%m/%Y %H:%M:%S')
 
 
 def open_log(i):
-    print(timestamp + ' ' + f'Opening image = {list_img[i]}')
+    print(timestamp + ' ' + f'Opening image = {i}')
     with open(log_file, 'a') as f:
-        f.write(timestamp + ' ' + f'Opening image = {list_img[i]}\n')
+        f.write(timestamp + ' ' + f'Opening image = {i}\n')
 
 
 def wrong_open():
@@ -21,12 +19,12 @@ def wrong_open():
 
 
 def filter_log(text):
-    print(timestamp + '    ' + f'Applaying a {text} filter')
+    print(timestamp + '    ' + f'Applying a {text} filter')
     with open(log_file, 'a') as f:
-        f.write(timestamp + ' ' + f'Applaying a {text} filter\n')
+        f.write(timestamp + ' ' + f'Applying a {text} filter\n')
 
 
-def save_log():
-    print(timestamp + ' ' + f'Saving result image in = {"CLI"}')
+def save_log(i):
+    print(timestamp + ' ' + f'Saving result image in = {i}')
     with open(log_file, 'a') as f:
-        f.write(timestamp + ' ' + f'Saving result image in = {"CLI"}\n')
+        f.write(timestamp + ' ' + f'Saving result image in = {i}\n')
