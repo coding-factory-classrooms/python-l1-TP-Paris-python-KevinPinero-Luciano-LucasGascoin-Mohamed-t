@@ -1,18 +1,24 @@
 from filters import blur as b
 from filters import dilate as d
 from filters import gray as g
-from cli import split_filters
+from CLI import split_filters
 from read_image import get_images
 import logger as l
 import cv2
 import os
 import errno
-from cli import rep
+from CLI import rep
 
 path = rep['output']
 
 
 def make_sure_path_exists(path):
+    """
+    Be sure that the path exists, if it doesn t exists it creates the direcory, in the other case it will not create it
+    :param path: path to the directory if it exists
+    :return:
+    """
+
     try:
         os.makedirs(path)
     except OSError as exception:
@@ -21,6 +27,14 @@ def make_sure_path_exists(path):
 
 
 def apply_filters(src, filters):
+    """
+
+    analyse data given by the user and then filter it
+
+    :param src: list of path for each images
+    :param filters: list of filter
+    :return:
+    """
     for img_path in src:
         image = cv2.imread(img_path)
         name = os.path.basename(img_path)
@@ -44,7 +58,10 @@ def apply_filters(src, filters):
                     image = d.dilate(image, intensity)
                 else:
                     print("Il manque un argument pour utiliser le filtre dilate")
-        make_sure_path_exists(rep['output'])
+        try:
+            make_sure_path_exists(rep['output'])
+        except Exception as e:
+            pass
         output_path = f"{rep['output']}/{name}"
         cv2.imwrite(output_path, image)
         l.save_log(output_path)
