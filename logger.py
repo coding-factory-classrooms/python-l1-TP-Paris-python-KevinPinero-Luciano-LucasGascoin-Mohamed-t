@@ -1,6 +1,6 @@
 from datetime import datetime
-from core import list_img
-from core import path
+#from core import list_img
+#from core import path
 
 
 log_file = 'imagefilter.log'

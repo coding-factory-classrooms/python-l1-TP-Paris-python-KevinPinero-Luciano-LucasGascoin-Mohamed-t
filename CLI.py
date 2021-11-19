@@ -16,7 +16,7 @@ for strParam in sys.argv[1:]:
     #dictionary = {'key': strParam.values()}
 
 
-print(dictionary)
+#print(dictionary)
 
 for i in dictionary.keys():
     if i == "-h":
@@ -35,12 +35,17 @@ for i in dictionary.keys():
 
 
 for i in dictionary.keys():
+    compteur_out = compteur_out + 1
     if i == "-o":
+        util_out = args[compteur_out]  # Recuperation du chemin vers le out de l'utilisteur
+        print(f"util_out = {util_out}")
         print("-o, /output")
 
 
-
-
+for i in dictionary.keys():
+    if i == "--filters":
+        exec.core()
+        print(dictionary)
 
 
 

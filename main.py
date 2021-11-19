@@ -5,7 +5,6 @@ from os.path import isfile, join
 
 path = "Data/"
 dirs = listdir( path )
-
 print(dirs)
 
 #
