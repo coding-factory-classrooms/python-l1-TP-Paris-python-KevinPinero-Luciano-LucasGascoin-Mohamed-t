@@ -1,6 +1,7 @@
 from filters import blur as b
 from filters import dilate as d
 from filters import gray as g
+from filters import ze_team as z
 from cli import split_filters
 from read_image import get_images
 import logger as l
@@ -13,6 +14,11 @@ path = rep['output']
 
 
 def make_sure_path_exists(path):
+    """
+     Be sure that the path exists, if it does not exists it creates the directory, in the other case it will not create it
+     :param path: path to the directory if it exists
+     :return:
+     """
     try:
         os.makedirs(path)
     except OSError as exception:
@@ -21,6 +27,13 @@ def make_sure_path_exists(path):
 
 
 def apply_filters(src, filters):
+    """
+    analyse data given by the user and then filter it
+
+    :param src: list of path for each images
+    :param filters: list of filter
+    :return: saves images in output directory chosen by the user
+    """
     for img_path in src:
         image = cv2.imread(img_path)
         name = os.path.basename(img_path)
@@ -44,6 +57,9 @@ def apply_filters(src, filters):
                     image = d.dilate(image, intensity)
                 else:
                     print("Il manque un argument pour utiliser le filtre dilate")
+            elif filter_name == "ZeTeam":
+                image = z.ze_team_filter(image)
+
         make_sure_path_exists(rep['output'])
         output_path = f"{rep['output']}/{name}"
         cv2.imwrite(output_path, image)
