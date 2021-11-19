@@ -1,99 +1,37 @@
 import sys
-
-from pathlib import Path
-import core
-import cv2
-# exists *args
-# exists **kwargs
-from os import listdir
-from os.path import isfile, join
-
-#compteur =0
-dictionary = {}
-for strParam in sys.argv[1:]:
-    dictionary[strParam] = 'value'
-    #dictionary |= {strParam}
-    #dictionary = {'key': strParam.values()}
+import configparser
 
 
-print(dictionary)
-
-for i in dictionary.keys():
-    if i == "-h":
-        print('usage: imagefilter')
-        print("-h,----help")
-        print("-i,--input-dir")
-        print("-o,--output-dir")
-from os.path import basename
-
-
+config = configparser.ConfigParser()
+config.read('config.ini')
 args = sys.argv
-
-for i in dictionary.keys():
-    if i == "-i":
-        print("-i, Data/imgs")
-
-
-for i in dictionary.keys():
-    if i == "-o":
-        print("-o, /output")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## -------------------- TESTS -------------------
-
-# ------------------- arg parse --------------
-# import argparse
-#
-#
-# parser = argparse.ArgumentParser()
-# parser.add_argument("args")
-# args = parser.parse_args(write(read_image(lister())))
-# print(args)
+rep = {
+    'input': '',
+    'output': '',
+    'filters': ''
+       }
+for i, arg in enumerate(args):
+    if arg == '-i':
+        rep["input"] = args[i + 1]
+    elif arg == '-o':
+        rep["output"] = args[i + 1]
+    elif arg == '-filters':
+        rep["filters"] = args[i + 1]
+    elif arg == '--config-file':
+        rep['input'] = config['DEFAULT']['input']
+        rep['output'] = config['DEFAULT']['output']
+        rep['filters'] = config['DEFAULT']['filters']
+        for i, arg in enumerate(args):
+            if arg == '-i':
+                rep["input"] = args[i + 1]
+            elif arg == '-o':
+                rep["output"] = args[i + 1]
+            elif arg == '-filters':
+                rep["filters"] = args[i + 1]
+    elif arg == '--list-filters':
+        print("Les filtres disponibles sont : grayscale, blur:(valeur) et dilate:(valeur)")
 
 
-# return data
-# print("Bad  value: %s" % param, file=sys.stderr)
-
-# print(param)
-
-# accumulator += param
-# except ValueError:
-#     pass
-# print( "Bad parameter value: %s" % strParam, file=sys.stderr )
-
-
-# for i, arg in enumerate(args):
-#     if arg == "-h":
-#         print('usage: imagefilter')
-#         print("-h,----help")
-#         print("-i,--input-dir")
-#         print("-o,--output-dir")
-
-
-
-
-
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-
-
-# if len( sys.argv ) == 1:
-#     print( "Adder by KooR.fr - V1.0" )
-#     print( "\tusage: python3 adder.py intValue..." )
-#     exit()
-#
+filters_arg = rep["filters"]
+split_filters = rep['filters'].split('|')
 
