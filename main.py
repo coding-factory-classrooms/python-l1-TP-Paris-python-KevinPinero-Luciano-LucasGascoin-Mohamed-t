@@ -1,2 +1,0 @@
-import apply_filters
-
